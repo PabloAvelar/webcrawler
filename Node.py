@@ -3,7 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
-
 class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
     visited = []
@@ -63,37 +62,48 @@ class Node:
         for child in tree.children:
             cls.print_tree(child, level + 1)
 
+
+    """
+      Obteniendo el dominio de una URI dada.
+      Debo de tener en cuenta que un nominio no es un .php, .html, .js, etc.
+
+      Recibe: string -> URI
+      Devuelve:
+          string -> El dominio de la URI
+          None -> Cuando no se encuentra el dominio
+      """
     @staticmethod
     def _get_domain(uri):
         try:
-            domain_pattern = r'(?:https?:\/\/)(?:www\.)?([^\/]+\.[a-z]+)'
-            domain = re.search(domain_pattern, uri).group(1)
-            return domain
-        except AttributeError:
+            domain_pattern = r'(?:https?:\/\/)?(?:www\.)?([^\/]+\.(?!php|html)[a-z]+)'
+            domain_match = re.search(domain_pattern, uri)
+            if domain_match:
+                return domain_match.group(1)
+            else:
+                return None
+        except AttributeError as e:
             return None
 
     @staticmethod
     def _uri_cleaner(uri, domain, webpage):
         # Si es una página en la misma ruta base
-        pattern_webpage = r'([a-z|A-Z|0-9]+\.php|html$)'
-        pattern_uri = r'(^[a-z|A-Z|0-9]+\.php|html$)'
-        uri_match = re.search(pattern_uri, uri)
+        pattern_webpage = r'([a-z|A-Z|0-9]+(\.php|html)?$)'
+        pattern_uri_filename = r'([a-z|A-Z|0-9]+(\/.+)?(\.php|html)?$)'  # (\.php|html)?$
+        uri_filename_match = re.search(pattern_uri_filename, uri)
         webpage_match = re.search(pattern_webpage, webpage)
 
-        if webpage_match and uri_match:
-            uri = webpage.replace(webpage_match.group(1), uri_match.group(1))
-
+        if "#" in uri:
+            return None
         uri_domain = Node._get_domain(uri)
 
-        if uri_domain is None or ".php" in uri_domain or ".html" in uri_domain:
+        if uri_domain is None:  # or ".php" in uri_domain or ".html" in uri_domain
             uri = f'{webpage}/{uri}' if uri[0] != '/' else domain + uri
-        # Si el link es de una página externa
+            # Si el link es de una página externa
         elif uri_domain != domain:
             return None
 
-        # Si el link redirige a una sección de la misma página se elimina para evitar un bucle infinito
-        if "#" in uri:
-            return None
+        if webpage_match and uri_filename_match:
+            uri = webpage.replace(webpage_match.group(1), uri_filename_match.group(1))
 
         # Asignando el protocolo https para obtener un objeto correcto para el módulo requests
         if "http" not in uri or "https" not in uri:

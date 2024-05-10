@@ -1,8 +1,18 @@
 import re
 import requests
-from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.common.exceptions import StaleElementReferenceException
+
 from fake_useragent import UserAgent
 from urllib3.exceptions import InsecureRequestWarning
+# Configurar las opciones de Chrome para ejecutar en modo headless
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+
+# Inicializar el navegador Chrome en modo headless
+driver = webdriver.Chrome(options=chrome_options)
 
 class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
@@ -152,38 +162,28 @@ class Node:
 
     def _scraper(self, website):
         try:
-            headers = {
-                'User-Agent': UserAgent().chrome
-            }
-
             # Si website tiene un / al final, se le quita
             website = website[:len(website) - 1] if website[len(website) - 1] == "/" else website
             Node.visited.append(website)
+
+            # Para evitar que se descarguen archivos
+            file_re = r'.*\.(docx|doc|pdf|xls|mp4|mp3|mkv|mpeg|png|jpeg|jpg|ico)$'
+            file_match = re.search(file_re, website)
+
+            if file_match:
+                return None
 
             domain = Node._get_domain(website)
 
             if domain is None:
                 raise Exception("No se pudo obtener dominio")
 
-            r = None
-            try:
-                r = requests.get(website, headers=headers)
-            except requests.exceptions.SSLError:
-                # print("No se pudo verificar SSL")
-                r = requests.get(website, headers=headers, verify=False)
-                requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
-            except Exception as e:
-                print("Error en la petición GET")
-                return None
-
-            soup = BeautifulSoup(r.content, 'lxml')
+            driver.get(website)
             links = []
 
-            for link in soup.find_all('a', href=True):
-
-                uri = link.get('href')
-
-                if len(uri) == 0:
+            for link in driver.find_elements(By.TAG_NAME, 'a'):
+                uri = link.get_attribute('href')
+                if uri is None or len(uri) == 0:
                     continue
 
                 uri = Node._uri_cleaner(uri, domain, website)
@@ -194,5 +194,7 @@ class Node:
                         Node.visited.append(uri)
 
             return links
+        except StaleElementReferenceException:
+            pass
         except Exception as e:
             raise Exception(e)

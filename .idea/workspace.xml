@@ -7,6 +7,7 @@
     <list default="true" id="1ad4e8e0-4609-48b5-b827-7e1610b574dc" name="Changes" comment="Usando mis propias regex">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Node.py" beforeDir="false" afterPath="$PROJECT_DIR$/Node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,9 +25,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2fbjl8UD3MszmE4BVBAYon78Vxg" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -112,15 +113,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Usando mis propias regex" />
     <option name="LAST_COMMIT_MESSAGE" value="Usando mis propias regex" />
-  </component>
-  <component name="XDebuggerManager">
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="tree.page" />
-        <watch expression="tree.page" />
-        <watch expression="Node.visited" language="Python" />
-        <watch expression="tree" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

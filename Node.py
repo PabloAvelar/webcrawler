@@ -1,12 +1,10 @@
 import re
-import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import StaleElementReferenceException
+from robots import read_robots_txt
 
-from fake_useragent import UserAgent
-from urllib3.exceptions import InsecureRequestWarning
 # Configurar las opciones de Chrome para ejecutar en modo headless
 chrome_options = Options()
 chrome_options.add_argument("--headless")
@@ -16,8 +14,8 @@ driver = webdriver.Chrome(options=chrome_options)
 
 class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
-    visited = []
-    forms_action = []
+    _visited = []
+    _disallowed_urls = None
 
     def __init__(self, parent=None, children=None, page=None):
         if children is None:
@@ -38,6 +36,10 @@ class Node:
     @children.setter
     def children(self, value):
         self._children.append(value)
+
+    @classmethod
+    def read_robots(cls, website) -> None:
+        cls._disallowed_urls = read_robots_txt(website)
 
     def crawl(self, tree):
         file_re = r'.*\.(docx|doc|pdf|xls)$'
@@ -164,7 +166,7 @@ class Node:
         try:
             # Si website tiene un / al final, se le quita
             website = website[:len(website) - 1] if website[len(website) - 1] == "/" else website
-            Node.visited.append(website)
+            Node._visited.append(website)
 
             # Para evitar que se descarguen archivos
             file_re = r'.*\.(docx|doc|pdf|xls|mp4|mp3|mkv|mpeg|png|jpeg|jpg|ico)$'
@@ -189,9 +191,9 @@ class Node:
                 uri = Node._uri_cleaner(uri, domain, website)
 
                 if uri is not None and uri not in links and uri != website:
-                    if uri not in Node.visited:
+                    if uri not in Node._visited and uri not in Node._disallowed_urls:
                         links.append(uri)
-                        Node.visited.append(uri)
+                        Node._visited.append(uri)
 
             return links
         except StaleElementReferenceException:

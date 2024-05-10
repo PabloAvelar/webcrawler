@@ -16,6 +16,7 @@ class Tree:
         if website != "":
             # Creando el nodo raíz
             self._root = Node(parent=None, children=None, page=website)
+            self._root.read_robots(website)
             self._root.crawl(self._root)
 
     def print(self):

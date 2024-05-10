@@ -1,7 +1,7 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 import re
-import requests
-from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
 
 """
 Obteniendo el dominio de una URI dada.
@@ -72,9 +72,12 @@ forms_action = []
 
 
 def scraper():
-    headers = {
-        'User-Agent': UserAgent().chrome
-    }
+    # Configurar las opciones de Chrome para ejecutar en modo headless
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+
+    # Inicializar el navegador Chrome en modo headless
+    driver = webdriver.Chrome(options=chrome_options)
 
     website = "https://dof.gob.mx/"
 
@@ -96,25 +99,12 @@ def scraper():
         print("No se obtuvo el dominio. Retornando...")
         return
     #         raise Exception("No se pudo obtener dominio")
-    r = None
-    try:
-        r = requests.get(website, headers=headers)
-    except requests.exceptions.SSLError:
-        # print("No se pudo verificar SSL")
-        r = requests.get(website, headers=headers, verify=False)
-    except:
-        print("Error en la petición GET")
-
-    soup = BeautifulSoup(r.content, 'lxml')
+    driver.get(website)
     links = []
 
-    for action in soup.find_all('form', method='get'):
-        #         print(action)
-        forms_action.append(action)
-
-    for link in soup.find_all('a', href=True):
-        uri = link.get('href')
-        if len(uri) == 0:
+    for link in driver.find_elements(By.TAG_NAME, 'a'):
+        uri = link.get_attribute('href')
+        if uri is None:
             continue
 
         uri = uri_cleaner(uri, domain, website)
@@ -123,10 +113,6 @@ def scraper():
             links.append(uri)
 
     print("\n".join(links))
-
-    print("Descargando la página...")
-    with open("pagina.html", 'w+', encoding='utf-8') as file:
-        file.write(soup.prettify())
 
 
 if __name__ == '__main__':

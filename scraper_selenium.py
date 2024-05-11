@@ -79,7 +79,7 @@ def scraper():
     driver = webdriver.Chrome(options=chrome_options)
 
     keywords = ["secretaría"]
-    website = "https://web.diputados.gob.mx/inicio/"
+    website = "https://dof.gob.mx/"
 
     # Si website tiene un / al final, se le quita
     website = website[:len(website) - 1] if website[len(website) - 1] == "/" else website
@@ -120,37 +120,43 @@ def scraper():
         'keywords': []
     }
 
-    search = None
+    search = []
 
     for header in driver.find_elements(By.TAG_NAME, 'h1'):
         if header.accessible_name != '':
-            headers['h1'].append(
-                {
-                    'title': header.accessible_name,
-                    'link': website
-                }
-            )
+            for word in keywords:
+                if word in header.accessible_name.lower():
+                    search.append({
+                        'title': header.accessible_name,
+                        'link': website,
+                        'tag': 'h1'
+                    })
+
     for header in driver.find_elements(By.TAG_NAME, 'h2'):
         if header.accessible_name != '':
-            headers['h2'].append(
-                {
-                    'title': header.accessible_name,
-                    'link': website
-                }
-            )
+            for word in keywords:
+                if word in header.accessible_name.lower():
+                    search.append({
+                        'title': header.accessible_name,
+                        'link': website,
+                        'tag': 'h2'
+                    })
+
     for header in driver.find_elements(By.TAG_NAME, 'h3'):
         if header.accessible_name != '':
-            headers['h3'].append(
-                {
-                    'title': header.accessible_name,
-                    'link': website
-                }
-            )
+            for word in keywords:
+                if word in header.accessible_name.lower():
+                    search.append({
+                        'title': header.accessible_name,
+                        'link': website,
+                        'tag': 'h3'
+                    })
+
 
     # print("\n".join(links))
-
+    print("keywords: ", keywords)
     print("headers:")
-    print(headers)
+    # print(headers)
     print(search)
 
 if __name__ == '__main__':

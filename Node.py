@@ -12,12 +12,15 @@ chrome_options.add_argument("--headless")
 # Inicializar el navegador Chrome en modo headless
 driver = webdriver.Chrome(options=chrome_options)
 
+
 class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
     _visited = []
     _disallowed_urls = None
-    _limit = 10
+    _limit = 50
     _counter = 0
+    _keywords = []
+    search = []
 
     def __init__(self, parent=None, children=None, page=None):
         if children is None:
@@ -40,8 +43,12 @@ class Node:
         self._children.append(value)
 
     @classmethod
-    def read_robots(cls, website) -> None:
+    def read_robots(cls, website: str) -> None:
         cls._disallowed_urls = read_robots_txt(website)
+
+    @classmethod
+    def set_keywords(cls, keywords: list) -> None:
+        cls._keywords = keywords
 
     def crawl(self, tree):
         file_re = r'.*\.(docx|doc|pdf|xls)$'
@@ -142,33 +149,81 @@ class Node:
                 uri = webpage.replace(webpage_match.group(1), uri_filename_match.group(1))
             else:
                 return None
-        #         else:
-        #             uri = f'{webpage}/{uri}' if uri[0] != '/' else domain+uri
+
         # Si el link es de una página externa
         elif uri_domain != domain:
             return None
 
-        #     if webpage_match and uri_filename_match:
-        #         uri = webpage.replace(webpage_match.group(1), uri_filename_match.group(1))
-        #         return uri
-
         # Asignando el protocolo https para obtener un objeto correcto para el módulo requests
         if "http" not in uri and "https" not in uri:
             uri = "https://" + uri
-
-            # Verificando que la URI sea correcta
-        #     try:
-        #         response = requests.get(uri)
-        #         if response.status_code == 404:
-        #             return None
-        #     except:
-        #         return None
 
         # Quitando el / del final
         if uri[len(uri) - 1] == '/':
             uri = uri[:-1]
 
         return uri
+
+    @classmethod
+    def _search_content(cls, website) -> None:
+
+        for header in driver.find_elements(By.TAG_NAME, 'h1'):
+            if header.accessible_name != '':
+                for word in cls._keywords:
+                    if word in header.accessible_name.lower():
+                        cls.search.append({
+                            'title': header.accessible_name,
+                            'link': website,
+                            'tag': 'h1'
+                        })
+
+        for header in driver.find_elements(By.TAG_NAME, 'h2'):
+            if header.accessible_name != '':
+                for word in cls._keywords:
+                    if word in header.accessible_name.lower():
+                        cls.search.append({
+                            'title': header.accessible_name,
+                            'link': website,
+                            'tag': 'h2'
+                        })
+
+        for header in driver.find_elements(By.TAG_NAME, 'h3'):
+            if header.accessible_name != '':
+                for word in cls._keywords:
+                    if word in header.accessible_name.lower():
+                        cls.search.append({
+                            'title': header.accessible_name,
+                            'link': website,
+                            'tag': 'h3'
+                        })
+
+        for header in driver.find_elements(By.TAG_NAME, 'h4'):
+            if header.accessible_name != '':
+                for word in cls._keywords:
+                    if word in header.accessible_name.lower():
+                        cls.search.append({
+                            'title': header.accessible_name,
+                            'link': website,
+                            'tag': 'h4'
+                        })
+
+    @classmethod
+    def _search_links(cls, website, domain) -> list:
+        links = []
+
+        for link in driver.find_elements(By.TAG_NAME, 'a'):
+            uri = link.get_attribute('href')
+            if uri is None or len(uri) == 0 or uri == '':
+                continue
+
+            uri = cls._uri_cleaner(uri, domain, website)
+
+            if uri is not None and uri not in links and uri != website:
+                if uri not in cls._visited and uri not in cls._disallowed_urls:
+                    links.append(uri)
+                    cls._visited.append(uri)
+
+        return links
 
     def _scraper(self, website):
         try:
@@ -188,19 +243,9 @@ class Node:
                 raise Exception("No se pudo obtener dominio")
 
             driver.get(website)
-            links = []
 
-            for link in driver.find_elements(By.TAG_NAME, 'a'):
-                uri = link.get_attribute('href')
-                if uri is None or len(uri) == 0 or uri == '':
-                    continue
-
-                uri = Node._uri_cleaner(uri, domain, website)
-
-                if uri is not None and uri not in links and uri != website:
-                    if uri not in Node._visited and uri not in Node._disallowed_urls:
-                        links.append(uri)
-                        Node._visited.append(uri)
+            Node._search_content(website)  # Buscando contenido con las palabras clave
+            links = Node._search_links(website, domain)  # Buscando links en la página
 
             return links
         except StaleElementReferenceException:

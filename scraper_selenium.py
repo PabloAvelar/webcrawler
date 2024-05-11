@@ -79,6 +79,7 @@ def scraper(website):
     driver = webdriver.Chrome(options=chrome_options)
 
     keywords = ["secretaría"]
+    website = "https://dof.gob.mx/"
 
     # Si website tiene un / al final, se le quita
     website = website[:len(website) - 1] if website[len(website) - 1] == "/" else website
@@ -120,102 +121,44 @@ def scraper(website):
         'keywords': [],
     }
 
-    search = None
-
-    for header in driver.find_elements(By.ID, 'divRubro'):
-        if header.accessible_name != '':
-            actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
-            headers['classname'].append(
-                {
-                    'title': header.accessible_name,
-                    'link': actual_website
-                }
-            )
+    search = []
 
     for header in driver.find_elements(By.TAG_NAME, 'h1'):
         if header.accessible_name != '':
-            headers['h1'].append(
-                {
-                    'title': header.accessible_name,
-                    'link': website
-                }
-            )
+            for word in keywords:
+                if word in header.accessible_name.lower():
+                    search.append({
+                        'title': header.accessible_name,
+                        'link': website,
+                        'tag': 'h1'
+                    })
+
     for header in driver.find_elements(By.TAG_NAME, 'h2'):
         if header.accessible_name != '':
-            headers['h2'].append(
-                {
-                    'title': header.accessible_name,
-                    'link': website
-                }
-            )
+            for word in keywords:
+                if word in header.accessible_name.lower():
+                    search.append({
+                        'title': header.accessible_name,
+                        'link': website,
+                        'tag': 'h2'
+                    })
+
     for header in driver.find_elements(By.TAG_NAME, 'h3'):
         if header.accessible_name != '':
-            headers['h3'].append(
-                {
-                    'title': header.accessible_name,
-                    'link': website
-                }
-            )
-
-    for header in driver.find_elements(By.CLASS_NAME, 'enlaces_leido'):
-        if header.accessible_name != '':
-            actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
-            headers['classname'].append(
-                {
-                    'title': header.accessible_name,
-                    'link': actual_website
-                }
-            )
-
-        for header in driver.find_elements(By.CLASS_NAME, 'enlaces'):
-            if header.accessible_name != '':
-                actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
-                headers['classname'].append(
-                    {
+            for word in keywords:
+                if word in header.accessible_name.lower():
+                    search.append({
                         'title': header.accessible_name,
-                        'link': actual_website
-                    }
-                )
+                        'link': website,
+                        'tag': 'h3'
+                    })
+
 
     # print("\n".join(links))
-
-    # print("headers:")
+    print("keywords: ", keywords)
+    print("headers:")
     # print(headers)
-
-    """ se ordena por h1, h2, h3, h4 """
-    print("Información encontrada:")
-
-    for page in headers["h2"]:
-        print(page["title"])
-        print(page["link"])
-        print("----------")
-
-    for page in headers["h1"]:
-        print(page["title"])
-        print(page["link"])
-        print("----------")
-
-    for page in headers["h2"]:
-        print(page["title"])
-        print(page["link"])
-        print("----------")
-
-    for page in headers["h3"]:
-        print(page["title"])
-        print(page["link"])
-        print("----------")
-
-    for page in headers["classname"]:
-        print(page["title"])
-        print(page["link"])
-        print("----------")
-
-    # for page in headers["td"]:
-    #     print(page["title"])
-    #     print(page["link"])
-    #     print("----------")
-
-
+    print(search)
 
 if __name__ == '__main__':
     scraper('https://egaceta.scjn.gob.mx/detalle/tesis/2028507')

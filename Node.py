@@ -206,6 +206,31 @@ class Node:
                             'link': website,
                             'tag': 'h4'
                         })
+        for header in driver.find_elements(By.CLASS_NAME, 'enlaces_leido'):
+            if header.accessible_name != '':
+                for word in cls._keywords:
+                    if word in header.accessible_name.lower():
+                        actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
+                        cls.search.append(
+                            {
+                                'title': header.accessible_name,
+                                'link': actual_website,
+                                'class_name': 'enlaces_leido'
+                            }
+                        )
+
+        for header in driver.find_elements(By.CLASS_NAME, 'enlaces'):
+            if header.accessible_name != '':
+                for word in cls._keywords:
+                    if word in header.accessible_name.lower():
+                        actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
+                        cls.search.append(
+                            {
+                                'title': header.accessible_name,
+                                'link': actual_website,
+                                'class_name': 'enlaces'
+                            }
+                        )
 
     @classmethod
     def _search_links(cls, website, domain) -> list:

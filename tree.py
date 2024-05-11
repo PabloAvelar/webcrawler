@@ -16,7 +16,7 @@ class Tree:
         keywords = []
         for key, value in kwargs.items():
             if key == 'keywords':
-                keywords.append(value.split(","))
+                keywords = value.split(",")
 
         if website != "":
             # Creando el nodo raíz
@@ -30,5 +30,17 @@ class Tree:
     def print(self):
         Node.print_tree(tree=self._root, level=0)
 
+    """
+    Muestra resultados de la busqueda por keywords.
+    El orden de indexacion es:
+        h1
+        h2
+        h3
+        h4
+        class_names
+    """
     def results(self):
-        print(Node.search)
+        for result in Node.search:
+            print(result['title'])
+            print(result['link'])
+            print("--------")

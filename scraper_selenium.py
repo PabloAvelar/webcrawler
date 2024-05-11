@@ -78,7 +78,7 @@ def scraper():
     # Inicializar el navegador Chrome en modo headless
     driver = webdriver.Chrome(options=chrome_options)
 
-    keywords = ["secretaría"]
+    keywords = ['presidente', 'morena', 'pan']
     website = "https://dof.gob.mx/"
 
     # Si website tiene un / al final, se le quita
@@ -151,13 +151,41 @@ def scraper():
                         'link': website,
                         'tag': 'h3'
                     })
+    for header in driver.find_elements(By.CLASS_NAME, 'enlaces_leido'):
+        if header.accessible_name != '':
+            for word in keywords:
+                if word in header.accessible_name.lower():
+                    actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
+                    search.append(
+                        {
+                            'title': header.accessible_name,
+                            'link': actual_website,
+                            'class_name': 'enlaces_leido'
+                        }
+                    )
+
+    for header in driver.find_elements(By.CLASS_NAME, 'enlaces'):
+        if header.accessible_name != '':
+            for word in keywords:
+                if word in header.accessible_name.lower():
+                    actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
+                    search.append(
+                        {
+                            'title': header.accessible_name,
+                            'link': actual_website,
+                            'class_name': 'enlaces'
+                        }
+                    )
 
 
     # print("\n".join(links))
     print("keywords: ", keywords)
-    print("headers:")
+    print("Información encontrada:")
     # print(headers)
-    print(search)
+    for content in search:
+        print(content['title'])
+        print(content['link'])
+        print("-------")
 
 if __name__ == '__main__':
     scraper()

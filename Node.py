@@ -16,6 +16,8 @@ class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
     _visited = []
     _disallowed_urls = None
+    _limit = 10
+    _counter = 0
 
     def __init__(self, parent=None, children=None, page=None):
         if children is None:
@@ -48,6 +50,10 @@ class Node:
         if file_match:
             return None
 
+        if Node._counter >= Node._limit:
+            return
+
+        Node._counter += 1
         print("crawling: ", tree.page)
         links = self._scraper(tree.page)
         if links is None:
@@ -116,7 +122,7 @@ class Node:
         uri_filename_match = re.search(pattern_uri_filename, uri)
         webpage_match = re.search(pattern_webpage, webpage)
 
-        if "#" in uri or 'javascript' in uri:
+        if "#" in uri or 'javascript' in uri or 'mailto' in uri:
             return None
 
         if "#" in uri:
@@ -134,6 +140,8 @@ class Node:
                 uri = f'{domain}/{uri}'
             elif uri_filename_match and webpage_match.group(1) not in domain:
                 uri = webpage.replace(webpage_match.group(1), uri_filename_match.group(1))
+            else:
+                return None
         #         else:
         #             uri = f'{webpage}/{uri}' if uri[0] != '/' else domain+uri
         # Si el link es de una página externa
@@ -176,7 +184,6 @@ class Node:
                 return None
 
             domain = Node._get_domain(website)
-
             if domain is None:
                 raise Exception("No se pudo obtener dominio")
 
@@ -185,7 +192,7 @@ class Node:
 
             for link in driver.find_elements(By.TAG_NAME, 'a'):
                 uri = link.get_attribute('href')
-                if uri is None or len(uri) == 0:
+                if uri is None or len(uri) == 0 or uri == '':
                     continue
 
                 uri = Node._uri_cleaner(uri, domain, website)

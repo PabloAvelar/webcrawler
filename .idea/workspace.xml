@@ -172,11 +172,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/node.py</url>
-          <line>170</line>
-          <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
           <line>115</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>

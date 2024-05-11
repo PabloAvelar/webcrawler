@@ -37,7 +37,7 @@ def uri_cleaner(uri, domain, webpage):
     uri_filename_match = re.search(pattern_uri_filename, uri)
     webpage_match = re.search(pattern_webpage, webpage)
 
-    if "#" in uri or 'javascript' in uri:
+    if "#" in uri or 'javascript' in uri or 'mailto' in uri:
         return None
 
     if "#" in uri:
@@ -53,6 +53,8 @@ def uri_cleaner(uri, domain, webpage):
             uri = f'{domain}/{uri}'
         elif uri_filename_match and webpage_match.group(1) not in domain:
             uri = webpage.replace(webpage_match.group(1), uri_filename_match.group(1))
+        else:
+            return None
 
     elif uri_domain != domain:
         return None
@@ -68,9 +70,6 @@ def uri_cleaner(uri, domain, webpage):
     return uri
 
 
-forms_action = []
-
-
 def scraper():
     # Configurar las opciones de Chrome para ejecutar en modo headless
     chrome_options = Options()
@@ -79,7 +78,8 @@ def scraper():
     # Inicializar el navegador Chrome en modo headless
     driver = webdriver.Chrome(options=chrome_options)
 
-    website = "https://dof.gob.mx/"
+    keywords = ["secretaría"]
+    website = "https://web.diputados.gob.mx/inicio/"
 
     # Si website tiene un / al final, se le quita
     website = website[:len(website) - 1] if website[len(website) - 1] == "/" else website
@@ -102,18 +102,56 @@ def scraper():
     driver.get(website)
     links = []
 
+
     for link in driver.find_elements(By.TAG_NAME, 'a'):
         uri = link.get_attribute('href')
-        if uri is None:
+        if uri is None or uri == '':
             continue
 
-        uri = uri_cleaner(uri, domain, website)
+        # uri = uri_cleaner(uri, domain, website)
+        #
+        # if uri is not None and uri not in links and uri != website:
+        #     links.append(uri)
+    headers = {
+        'h1': [],
+        'h2': [],
+        'h3': [],
+        'meta_description': [],
+        'keywords': []
+    }
 
-        if uri is not None and uri not in links and uri != website:
-            links.append(uri)
+    search = None
 
-    print("\n".join(links))
+    for header in driver.find_elements(By.TAG_NAME, 'h1'):
+        if header.accessible_name != '':
+            headers['h1'].append(
+                {
+                    'title': header.accessible_name,
+                    'link': website
+                }
+            )
+    for header in driver.find_elements(By.TAG_NAME, 'h2'):
+        if header.accessible_name != '':
+            headers['h2'].append(
+                {
+                    'title': header.accessible_name,
+                    'link': website
+                }
+            )
+    for header in driver.find_elements(By.TAG_NAME, 'h3'):
+        if header.accessible_name != '':
+            headers['h3'].append(
+                {
+                    'title': header.accessible_name,
+                    'link': website
+                }
+            )
 
+    # print("\n".join(links))
+
+    print("headers:")
+    print(headers)
+    print(search)
 
 if __name__ == '__main__':
     scraper()

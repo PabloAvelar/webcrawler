@@ -1,5 +1,6 @@
 import requests
 import re
+import urllib3
 
 
 def get_disallowed(robots_txt) -> list:
@@ -22,6 +23,7 @@ def get_disallowed(robots_txt) -> list:
 
 def read_robots_txt(url):
     url_robots_txt = url.rstrip("/") + '/robots.txt'
+    urllib3.disable_warnings()
 
     r = requests.get(url_robots_txt, verify=False)
     if r.status_code != 200:

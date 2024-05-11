@@ -20,7 +20,7 @@ class Node:
     _limit = 50
     _counter = 0
     _keywords = []
-    search = []
+    search = set()
 
     def __init__(self, parent=None, children=None, page=None):
         if children is None:
@@ -167,70 +167,22 @@ class Node:
     @classmethod
     def _search_content(cls, website) -> None:
 
-        for header in driver.find_elements(By.TAG_NAME, 'h1'):
-            if header.accessible_name != '':
-                for word in cls._keywords:
-                    if word in header.accessible_name.lower():
-                        cls.search.append({
-                            'title': header.accessible_name,
-                            'link': website,
-                            'tag': 'h1'
-                        })
+        headers_tags = ['h1', 'h2', 'h3', 'h4']
+        for tag_name in headers_tags:
+            headers = driver.find_elements(By.TAG_NAME, tag_name)
+            for header in headers:
+                if header.text:
+                    if any(word in header.text.lower() for word in cls._keywords):
+                        cls.search.add((header.text, website, tag_name))
 
-        for header in driver.find_elements(By.TAG_NAME, 'h2'):
-            if header.accessible_name != '':
-                for word in cls._keywords:
-                    if word in header.accessible_name.lower():
-                        cls.search.append({
-                            'title': header.accessible_name,
-                            'link': website,
-                            'tag': 'h2'
-                        })
-
-        for header in driver.find_elements(By.TAG_NAME, 'h3'):
-            if header.accessible_name != '':
-                for word in cls._keywords:
-                    if word in header.accessible_name.lower():
-                        cls.search.append({
-                            'title': header.accessible_name,
-                            'link': website,
-                            'tag': 'h3'
-                        })
-
-        for header in driver.find_elements(By.TAG_NAME, 'h4'):
-            if header.accessible_name != '':
-                for word in cls._keywords:
-                    if word in header.accessible_name.lower():
-                        cls.search.append({
-                            'title': header.accessible_name,
-                            'link': website,
-                            'tag': 'h4'
-                        })
-        for header in driver.find_elements(By.CLASS_NAME, 'enlaces_leido'):
-            if header.accessible_name != '':
-                for word in cls._keywords:
-                    if word in header.accessible_name.lower():
-                        actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
-                        cls.search.append(
-                            {
-                                'title': header.accessible_name,
-                                'link': actual_website,
-                                'class_name': 'enlaces_leido'
-                            }
-                        )
-
-        for header in driver.find_elements(By.CLASS_NAME, 'enlaces'):
-            if header.accessible_name != '':
-                for word in cls._keywords:
-                    if word in header.accessible_name.lower():
-                        actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
-                        cls.search.append(
-                            {
-                                'title': header.accessible_name,
-                                'link': actual_website,
-                                'class_name': 'enlaces'
-                            }
-                        )
+        element_classes = ['enlaces_leido', 'enlaces', 'breadcrum']
+        for element_class in element_classes:
+            elements = driver.find_elements(By.CLASS_NAME, element_class)
+            for element in elements:
+                if element.text:
+                    actual_website = element.get_attribute('href') if element.tag_name == 'a' else website
+                    if any(word in element.text.lower() for word in cls._keywords):
+                        cls.search.add((element.text, actual_website, element_class))
 
     @classmethod
     def _search_links(cls, website, domain) -> list:
@@ -244,9 +196,9 @@ class Node:
             uri = cls._uri_cleaner(uri, domain, website)
 
             if uri is not None and uri not in links and uri != website:
-                if uri not in cls._visited and uri not in cls._disallowed_urls:
-                    links.append(uri)
-                    cls._visited.append(uri)
+                if uri.replace("www.", "") not in cls._visited and uri not in cls._disallowed_urls:
+                    links.append(uri.replace("www.", ""))
+                    cls._visited.append(uri.replace("www.", ""))
 
         return links
 

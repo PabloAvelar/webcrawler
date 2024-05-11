@@ -116,8 +116,9 @@ def scraper():
         'h1': [],
         'h2': [],
         'h3': [],
+        'classname': [],
         'meta_description': [],
-        'keywords': []
+        'keywords': [],
     }
 
     search = None
@@ -147,11 +148,59 @@ def scraper():
                 }
             )
 
+    for header in driver.find_elements(By.CLASS_NAME, 'enlaces_leido'):
+        if header.accessible_name != '':
+            actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
+            headers['classname'].append(
+                {
+                    'title': header.accessible_name,
+                    'link': actual_website
+                }
+            )
+
+    for header in driver.find_elements(By.CLASS_NAME, 'enlaces'):
+        if header.accessible_name != '':
+            actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
+            headers['classname'].append(
+                {
+                    'title': header.accessible_name,
+                    'link': actual_website
+                }
+            )
+
     # print("\n".join(links))
 
-    print("headers:")
-    print(headers)
-    print(search)
+    # print("headers:")
+    # print(headers)
+
+    """ se ordena por h1, h2, h3, h4 """
+    print("Información encontrada:")
+    for page in headers["h1"]:
+        print(page["title"])
+        print(page["link"])
+        print("----------")
+
+    for page in headers["h2"]:
+        print(page["title"])
+        print(page["link"])
+        print("----------")
+
+    for page in headers["h3"]:
+        print(page["title"])
+        print(page["link"])
+        print("----------")
+
+    for page in headers["classname"]:
+        print(page["title"])
+        print(page["link"])
+        print("----------")
+
+    # for page in headers["td"]:
+    #     print(page["title"])
+    #     print(page["link"])
+    #     print("----------")
+
+
 
 if __name__ == '__main__':
     scraper()

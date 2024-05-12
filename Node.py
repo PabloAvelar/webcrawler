@@ -1,4 +1,6 @@
 import re
+import time
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -171,7 +173,7 @@ class Node:
     @classmethod
     def _search_content(cls, website) -> None:
 
-        headers_tags = ['h1', 'h2', 'h3', 'h4', 'font']
+        headers_tags = ['h1', 'h2', 'h3', 'h4']
         for tag_name in headers_tags:
             headers = driver.find_elements(By.TAG_NAME, tag_name)
             for header in headers:
@@ -179,11 +181,19 @@ class Node:
                     if any(word in header.text.lower() for word in cls._keywords):
                         cls.search.add((header.text, website, tag_name))
 
-        element_classes = ['enlaces_leido', 'enlaces']
+        id_divs = ['divRubro']
+        for div in id_divs:
+            headers = driver.find_elements(By.ID, div)
+            for element in headers:
+                if element.text:
+                    if any(word in element.text.lower() for word in cls._keywords):
+                        cls.search.add((element.text, website, div))
+
+        element_classes = ['enlaces_leido', 'enlaces', 'txt_blanco']
         for element_class in element_classes:
             elements = driver.find_elements(By.CLASS_NAME, element_class)
             for element in elements:
-                if element.text:
+                if element.text and element.tag_name != 'td':
                     actual_website = element.get_attribute('href') if element.tag_name == 'a' else website
                     if any(word in element.text.lower() for word in cls._keywords):
                         cls.search.add((element.text, actual_website, element_class))
@@ -201,6 +211,8 @@ class Node:
 
             if uri is not None and uri not in links and uri != website:
                 uri = uri.replace('http://', 'https://')
+                if "https://www." not in uri and domain != 'egaceta.scjn.gob.mx':
+                    uri = uri.replace("https://", "https://www.")
                 if uri not in cls._visited and uri not in cls._disallowed_urls:
                     links.append(uri)
                     cls._visited.append(uri)
@@ -225,6 +237,8 @@ class Node:
                 raise Exception("No se pudo obtener dominio")
 
             driver.get(website)
+            if domain == 'egaceta.scjn.gob.mx':
+                time.sleep(1)
 
             Node._search_content(website)  # Buscando contenido con las palabras clave
             links = Node._search_links(website, domain)  # Buscando links en la página

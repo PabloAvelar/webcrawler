@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import re
+import time
 
 """
 Obteniendo el dominio de una URI dada.
@@ -16,7 +17,7 @@ Devuelve:
 
 def get_domain(uri):
     try:
-        domain_pattern = r'(?:https?:\/\/)?(?:www\.)?([^\/]+\.(?!php|html)[a-z]+)'
+        domain_pattern = r'(?:https?:\/\/)?(?:www[2]?\.)?([^\/]+\.(?!php|html)[a-z]+)'
         domain_match = re.search(domain_pattern, uri)
         if domain_match:
             return domain_match.group(1)
@@ -70,7 +71,7 @@ def uri_cleaner(uri, domain, webpage):
     return uri
 
 
-def scraper():
+def scraper(website):
     # Configurar las opciones de Chrome para ejecutar en modo headless
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -78,8 +79,7 @@ def scraper():
     # Inicializar el navegador Chrome en modo headless
     driver = webdriver.Chrome(options=chrome_options)
 
-    keywords = ['en vivo']
-    website = "https://www.scjn.gob.mx/"
+    keywords = ['la']
 
     # Si website tiene un / al final, se le quita
     website = website[:len(website) - 1] if website[len(website) - 1] == "/" else website
@@ -100,17 +100,24 @@ def scraper():
         return
     #         raise Exception("No se pudo obtener dominio")
     driver.get(website)
-    links = []
+    time.sleep(2)
 
-    for link in driver.find_elements(By.TAG_NAME, 'a'):
-        uri = link.get_attribute('href')
-        if uri is None or uri == '':
-            continue
+    links = []
+    uri = None
+    try:
+        for link in driver.find_elements(By.TAG_NAME, 'a'):
+            uri = link.get_attribute('href')
+            if uri is None or uri == '':
+                continue
 
         # uri = uri_cleaner(uri, domain, website)
         #
         # if uri is not None and uri not in links and uri != website:
         #     links.append(uri)
+
+    except:
+        pass
+
     headers = {
         'h1': [],
         'h2': [],
@@ -121,7 +128,7 @@ def scraper():
 
     search = set()
 
-    headers_tags = ['h1', 'h2', 'h3', 'h4', 'meta', 'font']
+    headers_tags = ['h1', 'h2', 'h3', 'h4', 'meta']
     for tag_name in headers_tags:
         headers = driver.find_elements(By.TAG_NAME, tag_name)
         for header in headers:
@@ -133,11 +140,20 @@ def scraper():
                 if any(word in text.lower() for word in keywords):
                     search.add((text, website, tag_name))
 
+    headers_divs = ['divRubro']
+    for div_name in headers_divs:
+        headers = driver.find_elements(By.ID, div_name)
+        for header in headers:
+            text = header.text
+            if text:
+                if any(word in text.lower() for word in keywords):
+                    search.add((text, website, div_name))
+
     element_classes = ['enlaces_leido', 'enlaces', 'breadcrum']
     for element_class in element_classes:
         elements = driver.find_elements(By.CLASS_NAME, element_class)
         for element in elements:
-            if element.text:
+            if element.text and element.tag_name != 'td':
                 actual_website = element.get_attribute('href') if element.tag_name == 'a' else website
                 if any(word in element.text.lower() for word in keywords):
                     search.add((element.text, actual_website, element_class))
@@ -147,10 +163,10 @@ def scraper():
     print("Información encontrada:")
     # print(headers)
     for content in search:
-        print(content[0])
+        print("\t", content[0])
         print(content[1])
         print("-------")
 
 
 if __name__ == '__main__':
-    scraper()
+    scraper('https://www.dof.gob.mx/nota_detalle.php?codigo=5725572&fecha=06/05/2024#gsc.tab=0')

@@ -8,6 +8,13 @@ Hay un cuaderno de jupyter que hice desde que empecé esta cosa, ahí chécalo p
 ## Jupyter Lab
 Aquí está la documentación para instalar Jupyter Lab, la cosa donde puedes correr un servidor para leer el cuaderno: https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html
 
+El cuaderno es el archivo 'Web Crawler.ipynb'
+
 ## Selenium
 Módulo de Python para hacer webscraping: https://selenium-python.readthedocs.io/installation.html
 
+## MariaDB para Python
+Documentacion: https://mariadb.com/resources/blog/how-to-connect-python-programs-to-mariadb/
+
+## Fake-UserAgent
+Esta madre es para cambiar tu user-agent pero ahora solo está para pruebas: https://pypi.org/project/fake-useragent/

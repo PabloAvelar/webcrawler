@@ -70,7 +70,7 @@ def uri_cleaner(uri, domain, webpage):
     return uri
 
 
-def scraper():
+def scraper(website):
     # Configurar las opciones de Chrome para ejecutar en modo headless
     chrome_options = Options()
     chrome_options.add_argument("--headless")
@@ -79,7 +79,6 @@ def scraper():
     driver = webdriver.Chrome(options=chrome_options)
 
     keywords = ["secretaría"]
-    website = "https://web.diputados.gob.mx/inicio/"
 
     # Si website tiene un / al final, se le quita
     website = website[:len(website) - 1] if website[len(website) - 1] == "/" else website
@@ -123,6 +122,16 @@ def scraper():
 
     search = None
 
+    for header in driver.find_elements(By.ID, 'divRubro'):
+        if header.accessible_name != '':
+            actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
+            headers['classname'].append(
+                {
+                    'title': header.accessible_name,
+                    'link': actual_website
+                }
+            )
+
     for header in driver.find_elements(By.TAG_NAME, 'h1'):
         if header.accessible_name != '':
             headers['h1'].append(
@@ -158,15 +167,15 @@ def scraper():
                 }
             )
 
-    for header in driver.find_elements(By.CLASS_NAME, 'enlaces'):
-        if header.accessible_name != '':
-            actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
-            headers['classname'].append(
-                {
-                    'title': header.accessible_name,
-                    'link': actual_website
-                }
-            )
+        for header in driver.find_elements(By.CLASS_NAME, 'enlaces'):
+            if header.accessible_name != '':
+                actual_website = header.get_attribute('href') if header.tag_name == 'a' else website
+                headers['classname'].append(
+                    {
+                        'title': header.accessible_name,
+                        'link': actual_website
+                    }
+                )
 
     # print("\n".join(links))
 
@@ -175,6 +184,12 @@ def scraper():
 
     """ se ordena por h1, h2, h3, h4 """
     print("Información encontrada:")
+
+    for page in headers["h2"]:
+        print(page["title"])
+        print(page["link"])
+        print("----------")
+
     for page in headers["h1"]:
         print(page["title"])
         print(page["link"])
@@ -203,4 +218,4 @@ def scraper():
 
 
 if __name__ == '__main__':
-    scraper()
+    scraper('https://egaceta.scjn.gob.mx/detalle/tesis/2028507')

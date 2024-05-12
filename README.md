@@ -11,3 +11,5 @@ Aquí está la documentación para instalar Jupyter Lab, la cosa donde puedes co
 ## Selenium
 Módulo de Python para hacer webscraping: https://selenium-python.readthedocs.io/installation.html
 
+## Dotenv
+pip install python-dotenv

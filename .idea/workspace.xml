@@ -38,17 +38,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.main.executor": "Run",
-    "Python.node.executor": "Debug",
-    "Python.scraper.executor": "Run",
-    "Python.scraper_selenium.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/Avelar/Documents/universidad/clases/quinto/Seguridad de la Información/proyecto/Web Crawler.ipynb"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.node.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.scraper.executor&quot;: &quot;Run&quot;,
+    &quot;Python.scraper_selenium.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Avelar/Documents/universidad/clases/quinto/Seguridad de la Información/proyecto/Web Crawler.ipynb&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="webcrawler" />
@@ -156,52 +156,52 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>139</line>
           <option name="timeStamp" value="52" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>141</line>
           <option name="timeStamp" value="53" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>156</line>
           <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>115</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>113</line>
           <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>128</line>
           <option name="timeStamp" value="65" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>143</line>
           <option name="timeStamp" value="66" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>148</line>
           <option name="timeStamp" value="67" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>125</line>
           <option name="timeStamp" value="68" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/node.py</url>
+          <url>file://$PROJECT_DIR$/Node.py</url>
           <line>133</line>
           <option name="timeStamp" value="69" />
         </line-breakpoint>

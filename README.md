@@ -18,3 +18,6 @@ Documentacion: https://mariadb.com/resources/blog/how-to-connect-python-programs
 
 ## Fake-UserAgent
 Esta madre es para cambiar tu user-agent pero ahora solo está para pruebas: https://pypi.org/project/fake-useragent/
+
+## Beautiful Soup
+Esta cosa ahora está para pruebas y para cosas extras: https://www.crummy.com/software/BeautifulSoup/bs4/doc/

@@ -13,3 +13,6 @@ El cuaderno es el archivo 'Web Crawler.ipynb'
 ## Selenium
 Módulo de Python para hacer webscraping: https://selenium-python.readthedocs.io/installation.html
 
+## MariaDB para Python
+Documentacion: https://mariadb.com/resources/blog/how-to-connect-python-programs-to-mariadb/
+

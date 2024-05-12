@@ -16,3 +16,5 @@ Módulo de Python para hacer webscraping: https://selenium-python.readthedocs.io
 ## MariaDB para Python
 Documentacion: https://mariadb.com/resources/blog/how-to-connect-python-programs-to-mariadb/
 
+## Fake-UserAgent
+Esta madre es para cambiar tu user-agent pero ahora solo está para pruebas: https://pypi.org/project/fake-useragent/

@@ -54,6 +54,6 @@ class Tree:
     """
     def results(self):
         for result in Node.search:
-            print(result[0])
+            print("\t", result[0])
             print(result[1])
             print("--------")

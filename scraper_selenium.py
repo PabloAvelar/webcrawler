@@ -151,7 +151,7 @@ def scraper(website):
                 if any(word in text.lower() for word in keywords):
                     search.add((text, website, div_name))
 
-    element_classes = ['enlaces_leido', 'enlaces', 'breadcrum']
+    element_classes = ['enlaces_leido', 'enlaces', 'txt_blanco']
     for element_class in element_classes:
         elements = driver.find_elements(By.CLASS_NAME, element_class)
         for element in elements:

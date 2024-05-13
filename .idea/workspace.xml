@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ad4e8e0-4609-48b5-b827-7e1610b574dc" name="Changes" comment="Evitando descargar archivos pdf, docs, etc. Modificaciones en logica de creacion de URI">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/cache_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/connection.py" afterDir="false" />
     </list>
@@ -44,6 +45,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.cache.executor": "Run",
+    "Python.cache_test.executor": "Run",
     "Python.connection.executor": "Run",
     "Python.main.executor": "Run",
     "Python.node.executor": "Debug",

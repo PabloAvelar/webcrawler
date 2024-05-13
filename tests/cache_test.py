@@ -1,9 +1,9 @@
 from connection import connection
 
-cur = connection()
-
+conn = connection()
 
 def cache(*args):
+    cur = conn.cursor()
     query = "SELECT * FROM search"
     cur.execute(query)
 
@@ -11,7 +11,7 @@ def cache(*args):
 
 
 data = cache()
-keywords = ["méxico"]
+keywords = ["inglés"]
 results = []
 
 for row in data:

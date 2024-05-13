@@ -1,7 +1,6 @@
 from connection import connection
 
-cur = connection()
-
+conn = connection()
 
 def cache(keywords: list) -> tuple:
     """s
@@ -11,6 +10,7 @@ def cache(keywords: list) -> tuple:
     Devuelve: tuple -> Tupla con las coincidencias de la búsqueda con palabras clave en la base de datos
 
     """
+    cur = conn.cursor()
 
     base_query = """
     SELECT *
@@ -31,7 +31,21 @@ def cache(keywords: list) -> tuple:
     return cur.fetchall()
 
 
-keywords = ["justicia", "ley"]
-print("resultados")
-for x in cache(keywords):
-    print(x)
+def set_new_records(records: list) -> None:
+    """
+    Función para insertar nuevos registros para el caché del webcrawler
+    :param records: list
+    :return: None
+    """
+    cur = conn.cursor()
+
+    base_query = """
+        INSERT INTO `search` (description, link, html_origin)
+        VALUES (%s, %s, %s)                
+    """
+
+    try:
+        cur.executemany(base_query, records)
+        conn.commit()  # Confirmar la transacción
+    except Exception as e:
+        print(f"Error inserting records: {e}")

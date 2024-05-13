@@ -1,6 +1,9 @@
 from node import Node
 from sumario import get_sumario
 from sumario import scrape_sumario
+from cache import cache
+from cache import set_new_records
+
 
 class Tree:
     def __init__(self):
@@ -13,23 +16,37 @@ class Tree:
     Recibe: sitio web -> str
     Devuelve: Nada
     """
-    def build(self, website:str, **kwargs):
+
+    def build(self, website: str, **kwargs):
         if website == "":
             return
 
         keywords = []
         use_sumario = False
+        use_cache = True
+
         for key, value in kwargs.items():
             if key == 'keywords':
                 keywords = value.split(",")
             if key == 'sumario':
                 use_sumario = value
+            if key == 'cache':
+                use_cache = value
 
         if use_sumario:
             sumario = get_sumario(website)
             if sumario is not None:
                 scrape_sumario(sumario, keywords)
 
+            return
+
+        # Checando en caché y evitar hacer todo el proceso otra vez
+        if use_cache:
+            records = cache(keywords)
+            if len(records) > 0:
+                self.print_records(records)
+            else:
+                print("No hay coincidencias.")
             return
 
         # Creando el nodo raíz
@@ -39,6 +56,24 @@ class Tree:
             self._root.set_keywords(keywords)
 
             self._root.crawl(self._root)
+
+        print("Imprimiendo el árbol...")
+        self.print()
+        print("Resultados de la búsqueda")
+        self.results()
+
+    @staticmethod
+    def print_records(records) -> None:
+        """
+        Función para mostrar las coincidencias en el caché, la base de datos
+        :param records: list of tuples
+        :return: None
+        """
+
+        for record in records:
+            print("\t", record[1])
+            print(record[2])
+            print("------------------------")
 
     def print(self):
         Node.print_tree(tree=self._root, level=0)
@@ -52,8 +87,15 @@ class Tree:
         h4
         class_names
     """
-    def results(self):
+
+    @staticmethod
+    def results():
+        # Guardando esta nueva coincidencia en caché!!!
+        set_new_records(Node.search)
+
         for result in Node.search:
             print("\t", result[0])
             print(result[1])
             print("--------")
+
+

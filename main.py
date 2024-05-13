@@ -8,10 +8,11 @@ def main():
     website = "https://www.dof.gob.mx/"
 
     option = int(input("""
-                Web Crawler de Pablo!
+                Web Crawler de Pablo y Ricardo!
         
-        1) Buscar por sumario
-        2) Buscar por exploración del sitio
+        1) Búsqueda por sumario
+        2) Búsqueda con caché
+        3) Búsqueda exhaustiva
         
         : """))
 
@@ -21,14 +22,11 @@ def main():
         print("Buscando por sumario...")
         pages_tree.build(website, keywords=keywords, sumario=True)
     elif option == 2:
-        print("Explorando el sitio...")
+        print("Búsqueda con caché...")
         pages_tree.build(website, keywords=keywords)
-
-        print("Imprimiendo el árbol...")
-        pages_tree.print()
-
-        print("Resultados de la búsqueda")
-        pages_tree.results()
+    elif option == 3:
+        print("Búsqueda exhaustiva: explorando el sitio...")
+        pages_tree.build(website, keywords=keywords, cache=False)
 
 
 if __name__ == '__main__':

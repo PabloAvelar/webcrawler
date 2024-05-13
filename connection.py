@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 def connection():
     # Connect to MariaDB Platform
     try:
@@ -17,9 +16,10 @@ def connection():
             port=int(os.getenv('DB_PORT')),
             database=os.getenv('DB_NAME')
         )
+
     except mariadb.Error as e:
         print(f"Error connecting to MariaDB Platform: {e}")
         sys.exit(1)
 
-    # Return Cursor
-    return conn.cursor()
+    # Return connection
+    return conn

@@ -91,7 +91,7 @@ class Tree:
     @staticmethod
     def results():
         # Guardando esta nueva coincidencia en caché!!!
-        set_new_records(Node.search)
+        set_new_records(list(Node.search))
 
         for result in Node.search:
             print("\t", result[0])

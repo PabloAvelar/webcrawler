@@ -5,7 +5,7 @@ def main():
     pages_tree = Tree()
 
     # website = input("Ingresa la URL del sitio web: ")
-    website = "https://www.dof.gob.mx/"
+    website = "https://www.gob.mx/tramites/programas"
 
     option = int(input("""
                 Web Crawler de Pablo y Ricardo!

@@ -10,7 +10,7 @@ from robots import read_robots_txt
 # Configurar las opciones de Chrome para ejecutar en modo headless
 chrome_options = Options()
 chrome_options.add_argument("--headless")
-
+chrome_options.add_argument('--log-level=3')
 # Inicializar el navegador Chrome en modo headless
 driver = webdriver.Chrome(options=chrome_options)
 
@@ -19,7 +19,7 @@ class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
     _visited = []
     _disallowed_urls = None
-    _limit = 50
+    _limit = 60
     _counter = 0
     _keywords = []
     search = set()

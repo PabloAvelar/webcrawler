@@ -99,17 +99,17 @@ class Tree:
         """
         Muestra resultados de la busqueda por keywords.
         El orden de indexacion es:
-            h1
+            h1 - (nombres de clase)
             h2
             h3
             h4
-            (nombres de clase)
+
         """
 
         # Guardando esta nueva coincidencia en caché!!!
-        # set_new_records(Node.shared_list)
+        set_new_records(tuple(self._shared_list))
 
-        print("Resultados de la búsqueda:")
+        # Todo: ordenar self._shared_list y mostrarlo en los resultados
 
         for result in self._shared_list:
             print("\t", result[0])

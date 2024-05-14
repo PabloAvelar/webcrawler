@@ -31,7 +31,7 @@ def cache(keywords: list) -> tuple:
     return cur.fetchall()
 
 
-def set_new_records(records: list) -> None:
+def set_new_records(records: tuple) -> None:
     """
     Función para insertar nuevos registros para el caché del webcrawler
     :param records: list

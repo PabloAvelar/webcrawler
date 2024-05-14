@@ -82,15 +82,17 @@ class Node:
         for child in tree.children:
             self.crawl(child)
 
-    """
-    Función para mostrar el subárbol generado a partir de un nodo en específico de manera recursiva
-    
-    Recibe: nada
-    Devuelve: nada
-    """
+
 
     @classmethod
     def print_tree(cls, tree, level=0):
+        """
+        Función para mostrar el subárbol generado a partir de un nodo en específico de manera recursiva
+
+        :argument tree: subárbol
+        :argument level: nivel del subárbol
+        :return None
+        """
 
         # Para mostrar por niveles
         print(f'|{"---" * level}: {tree.page}')
@@ -101,18 +103,18 @@ class Node:
         for child in tree.children:
             cls.print_tree(child, level + 1)
 
-    """
-      Obteniendo el dominio de una URI dada.
-      Debo de tener en cuenta que un nominio no es un .php, .html, .js, etc.
 
-      Recibe: string -> URI
-      Devuelve:
-          string -> El dominio de la URI
-          None -> Cuando no se encuentra el dominio
-      """
 
     @staticmethod
     def _get_domain(uri):
+        """
+          Obteniendo el dominio de una URI dada.
+          Debo de tener en cuenta que un nominio no es un .php, .html, .js, etc.
+
+          :argument uri: string
+          :return string: El dominio de la URI
+          :return None: Cuando no se encuentra el dominio
+          """
         try:
             domain_pattern = r'(?:https?:\/\/)?(?:www\.)?([^\/]+\.(?!php|html)[a-z]+)'
             domain_match = re.search(domain_pattern, uri)
@@ -146,8 +148,6 @@ class Node:
         if uri[0] == '/':
             uri = domain + uri
         elif uri_domain is None:  # or ".php" in uri_domain or ".html" in uri_domain
-            #         print("uri completa: ", webpage, uri)
-            #         print(webpage_match.group(1), domain)
 
             if only_filename_match:
                 uri = f'{domain}/{uri}'

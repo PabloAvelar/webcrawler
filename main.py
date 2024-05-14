@@ -24,21 +24,17 @@ def main():
     option = int(input("""
                 Web Crawler de Pablo y Ricardo!
         
-        1) Búsqueda por sumario
-        2) Búsqueda con caché
-        3) Búsqueda exhaustiva
+        1) Búsqueda con caché
+        2) Búsqueda exhaustiva
         
         : """))
 
     keywords = input("Ingresa palabras clave a buscar: ")
 
     if option == 1:
-        print("Buscando por sumario...")
-        pages_tree.build(website, keywords=keywords, sumario=True)
-    elif option == 2:
         print("Búsqueda con caché...")
         pages_tree.search_cache(keywords=keywords)
-    elif option == 3:
+    elif option == 2:
         print("Búsqueda exhaustiva: explorando el sitio...")
 
         # Creando procesos para cada sitio web

@@ -90,18 +90,19 @@ class Tree:
     def print(self):
         Node.print_tree(tree=self._root, level=0)
 
-    """
-    Muestra resultados de la busqueda por keywords.
-    El orden de indexacion es:
-        h1
-        h2
-        h3
-        h4
-        class_names
-    """
 
     @staticmethod
     def results():
+        """
+        Muestra resultados de la busqueda por keywords.
+        El orden de indexacion es:
+            h1
+            h2
+            h3
+            h4
+            class_names
+        """
+
         # Guardando esta nueva coincidencia en caché!!!
         set_new_records(list(Node.search))
 

@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1ad4e8e0-4609-48b5-b827-7e1610b574dc" name="Changes" comment="merge conflict">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/cache.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/node.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/tree.py" afterDir="false" />
@@ -44,23 +43,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.cache.executor&quot;: &quot;Run&quot;,
-    &quot;Python.cache_test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.connection.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.node.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.scraper.executor&quot;: &quot;Run&quot;,
-    &quot;Python.scraper_selenium.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.sumario.executor&quot;: &quot;Run&quot;,
-    &quot;Python.tree.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Avelar/Documents/universidad/clases/quinto/Seguridad de la Información/proyecto/Web Crawler.ipynb&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.cache.executor": "Run",
+    "Python.cache_test.executor": "Run",
+    "Python.connection.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.node.executor": "Debug",
+    "Python.scraper.executor": "Run",
+    "Python.scraper_selenium.executor": "Debug",
+    "Python.sumario.executor": "Run",
+    "Python.tree.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Avelar/Documents/universidad/clases/quinto/Seguridad de la Información/proyecto/Web Crawler.ipynb",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="webcrawler" />
@@ -175,5 +174,31 @@
     <MESSAGE value="Evitando descargar archivos pdf, docs, etc. Modificaciones en logica de creacion de URI" />
     <MESSAGE value="merge conflict" />
     <option name="LAST_COMMIT_MESSAGE" value="merge conflict" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/node.py</url>
+          <line>181</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/node.py</url>
+          <line>189</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/node.py</url>
+          <line>198</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="Node.search" language="Python" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

@@ -1,5 +1,5 @@
 from tree import Tree
-from multiprocessing import Process
+from multiprocessing import Process, Manager
 
 
 def get_websites():
@@ -16,7 +16,9 @@ def get_websites():
 
 
 def main():
-    pages_tree = Tree()
+    manager = Manager()
+    shared_list = manager.list()
+    pages_tree = Tree(shared_list)
 
     # website = input("Ingresa la URL del sitio web: ")
     # website = "https://www.scjn.gob.mx/"
@@ -41,7 +43,7 @@ def main():
         processes = []
 
         for website in get_websites():
-            process = Process(target=pages_tree.build, args=(website,), kwargs={'keywords': keywords, 'cache': False})
+            process = Process(target=pages_tree.build, args=(website, ), kwargs={'keywords': keywords, 'cache': False})
             process.start()
             processes.append(process)
 

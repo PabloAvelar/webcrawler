@@ -18,7 +18,7 @@ class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
     _visited = []
     _disallowed_urls = None
-    _limit = 2
+    _limit = 10
     _counter = 0
     _keywords = []
     search = set()

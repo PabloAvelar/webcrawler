@@ -10,14 +10,27 @@ class Tree:
         self._root = None
         self._counter = 0
 
-    """
-    Función para armar un árbol de la estructura del sitio web
-    
-    Recibe: sitio web -> str
-    Devuelve: Nada
-    """
+    def search_cache(self, **kwargs):
+        keywords = []
+        for key, value in kwargs.items():
+            if key == 'keywords':
+                keywords = value.split(",")
+
+        records = cache(keywords)
+        if len(records) > 0:
+            self.print_records(records)
+        else:
+            print("No hay coincidencias.")
+        return
+
 
     def build(self, website: str, **kwargs):
+        """
+        Función para armar un árbol de la estructura del sitio web
+        :arg website -> str
+        :return None
+        """
+
         if website == "":
             return
 
@@ -59,8 +72,7 @@ class Tree:
 
         print("Imprimiendo el árbol...")
         self.print()
-        print("Resultados de la búsqueda")
-        self.results()
+
 
     @staticmethod
     def print_records(records) -> None:

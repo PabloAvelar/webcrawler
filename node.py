@@ -14,12 +14,11 @@ chrome_options.add_argument('--log-level=3')
 # Inicializar el navegador Chrome en modo headless
 driver = webdriver.Chrome(options=chrome_options)
 
-
 class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
     _visited = []
     _disallowed_urls = None
-    _limit = 60
+    _limit = 2
     _counter = 0
     _keywords = []
     search = set()
@@ -68,6 +67,7 @@ class Node:
 
         Node._counter += 1
         print("crawling: ", tree.page)
+
         links = self._scraper(tree.page)
         if links is None:
             return

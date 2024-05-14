@@ -3,11 +3,11 @@ from connection import connection
 conn = connection()
 
 def cache(keywords: list) -> tuple:
-    """s
+    """
     Función para buscar información con palabras clave en la base de datos como caché.
 
-    Recibe: list -> Lista de palabras clave para buscar
-    Devuelve: tuple -> Tupla con las coincidencias de la búsqueda con palabras clave en la base de datos
+    :argument keywords: Lista de palabras clave para buscar
+    :return tuple: Tupla con las coincidencias de la búsqueda con palabras clave en la base de datos
 
     """
     cur = conn.cursor()

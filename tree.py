@@ -6,9 +6,10 @@ from cache import set_new_records
 
 
 class Tree:
-    def __init__(self):
+    def __init__(self, shared_list):
         self._root = None
         self._counter = 0
+        self._shared_list = shared_list
 
     def search_cache(self, **kwargs):
         keywords = []
@@ -65,13 +66,17 @@ class Tree:
         # Creando el nodo raíz
         self._root = Node(parent=None, children=None, page=website)
         self._root.read_robots(website)
+
         if len(keywords) > 0:
             self._root.set_keywords(keywords)
 
             self._root.crawl(self._root)
 
-        print("Imprimiendo el árbol...")
-        self.print()
+        print("set: ")
+        print(Node.search)
+        self._shared_list.extend(Node.search)
+        # print("Imprimiendo el árbol...")
+        # self.print()
 
 
     @staticmethod
@@ -90,9 +95,7 @@ class Tree:
     def print(self):
         Node.print_tree(tree=self._root, level=0)
 
-
-    @staticmethod
-    def results():
+    def results(self):
         """
         Muestra resultados de la busqueda por keywords.
         El orden de indexacion es:
@@ -100,13 +103,15 @@ class Tree:
             h2
             h3
             h4
-            class_names
+            (nombres de clase)
         """
 
         # Guardando esta nueva coincidencia en caché!!!
-        set_new_records(list(Node.search))
+        # set_new_records(Node.shared_list)
 
-        for result in Node.search:
+        print("Resultados de la búsqueda:")
+
+        for result in self._shared_list:
             print("\t", result[0])
             print(result[1])
             print("--------")

@@ -10,9 +10,13 @@ def get_websites():
     """
 
     return [
-        'https://www.scjn.gob.mx/',
-        'https://dof.gob.mx/',
-        'https://cjj.gob.mx/',
+       'https://webscraper.io/test-sites',
+       'https://www.udg.mx/'
+       # 'https://www.scjn.gob.mx/',
+      #  'https://dof.gob.mx/',
+     #   'https://cjj.gob.mx/audience',
+      # 'https://becasbenitojuarez.net/',
+     #   'https://aracktricks.blogspot.com/2009/02/dns-de-telmex-servidores.html',
     ]
 
 
@@ -25,7 +29,7 @@ def main():
     # website = "https://www.scjn.gob.mx/"
 
     option = int(input("""
-                Web Crawler de Pablo y Ricardo!
+         Web Crawler de Pablo y Ricardo!
         
         1) Búsqueda con caché
         2) Búsqueda exhaustiva

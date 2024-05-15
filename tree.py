@@ -93,6 +93,7 @@ class Tree:
             print("------------------------")
 
     def print(self):
+        
         Node.print_tree(tree=self._root, level=0)
 
     def results(self):
@@ -103,17 +104,44 @@ class Tree:
             h2
             h3
             h4
-
+            h5
+            p
+            a
+            li
+            table-data
         """
-
         # Guardando esta nueva coincidencia en caché!!!
         set_new_records(tuple(self._shared_list))
 
-        # Todo: ordenar self._shared_list y mostrarlo en los resultados
+        # Crear un diccionario para almacenar los resultados organizados por etiquetas
+        results_by_tag = {
+            'h1': [],
+            'h2': [],
+            'h3': [],
+            'h4': [],
+            'h5': [],
+            'p': [],
+            'a': [],
+            'li':[],
+            'table-data': []  # Agregar la clave para 'table-data'
+        }
 
+        # Organizar los resultados por etiqueta
         for result in self._shared_list:
-            print("\t", result[0])
-            print(result[1])
+            text, website, tag_name = result
+            # Asegurarse de manejar la etiqueta 'table-data'
+            if tag_name in results_by_tag:
+                results_by_tag[tag_name].append((text, website))
+            else:
+                results_by_tag['table-data'].append((text, website))
+
+        # Imprimir los resultados ordenados por etiquetas
+        for tag_name in ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'a','li' 'table-data']:
+            print(tag_name.upper())
             print("--------")
+            for text, website in results_by_tag[tag_name]:
+                print("\t", text)
+                print("\t", website)
+                print("--------")
 
 

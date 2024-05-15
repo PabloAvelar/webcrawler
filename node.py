@@ -18,7 +18,7 @@ class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
     _visited = []
     _disallowed_urls = None
-    _limit = 10
+    _limit = 70
     _counter = 0
     _keywords = []
     search = set()
@@ -173,7 +173,7 @@ class Node:
     @classmethod
     def _search_content(cls, website) -> None:
 
-        headers_tags = ['h1', 'h2', 'h3', 'h4']
+        headers_tags = ['h1', 'h2', 'h3', 'h4', 'p', 'a']
         for tag_name in headers_tags:
             headers = driver.find_elements(By.TAG_NAME, tag_name)
             for header in headers:
@@ -189,7 +189,7 @@ class Node:
                     if any(word in element.text.lower() for word in cls._keywords):
                         cls.search.add((element.text, website, div))
 
-        element_classes = ['enlaces_leido', 'enlaces', 'txt_blanco']
+        element_classes = ['enlaces_leido', 'enlaces', 'txt_blanco', 'table-data']
         for element_class in element_classes:
             elements = driver.find_elements(By.CLASS_NAME, element_class)
             for element in elements:

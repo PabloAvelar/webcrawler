@@ -12,7 +12,7 @@ def get_websites():
     return [
         'https://www.scjn.gob.mx/',
         'https://dof.gob.mx/',
-        'https://cjj.gob.mx/'
+        'https://cjj.gob.mx/',
     ]
 
 

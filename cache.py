@@ -40,7 +40,7 @@ def set_new_records(records: tuple) -> None:
     cur = conn.cursor()
 
     base_query = """
-        INSERT INTO `search` (description, link, html_origin)
+        INSERT IGNORE INTO `search` (description, link, html_origin)
         VALUES (%s, %s, %s)                
     """
 

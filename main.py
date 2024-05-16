@@ -10,13 +10,10 @@ def get_websites():
     """
 
     return [
-       'https://webscraper.io/test-sites',
-       'https://www.udg.mx/'
-       # 'https://www.scjn.gob.mx/',
-      #  'https://dof.gob.mx/',
-     #   'https://cjj.gob.mx/audience',
-      # 'https://becasbenitojuarez.net/',
-     #   'https://aracktricks.blogspot.com/2009/02/dns-de-telmex-servidores.html',
+       'https://dof.gob.mx/',
+       'https://www.scjn.gob.mx/',
+       'https://cjj.gob.mx/audience',
+      'https://becasbenitojuarez.net/',
     ]
 
 

@@ -11,6 +11,8 @@ from robots import read_robots_txt
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument('--log-level=3')
+#Lo
+
 # Inicializar el navegador Chrome en modo headless
 driver = webdriver.Chrome(options=chrome_options)
 
@@ -18,7 +20,7 @@ class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
     _visited = []
     _disallowed_urls = None
-    _limit = 10
+    _limit = 50
     _counter = 0
     _keywords = []
     search = set()
@@ -77,9 +79,11 @@ class Node:
         for link in links:
             new_child = Node(parent=tree, children=None, page=link)
             tree.children = new_child
+            
 
         # Haciendo mismo procedimiento para cada hijo de manera recursiva
         for child in tree.children:
+            
             self.crawl(child)
 
 
@@ -96,13 +100,15 @@ class Node:
 
         # Para mostrar por niveles
         print(f'|{"---" * level}: {tree.page}')
+        
 
         if len(tree.children) == 0:
             return
 
         for child in tree.children:
+            
             cls.print_tree(child, level + 1)
-
+            
 
 
     @staticmethod
@@ -118,9 +124,12 @@ class Node:
         try:
             domain_pattern = r'(?:https?:\/\/)?(?:www\.)?([^\/]+\.(?!php|html)[a-z]+)'
             domain_match = re.search(domain_pattern, uri)
+            
             if domain_match:
+                
                 return domain_match.group(1)
             else:
+                
                 return None
         except AttributeError as e:
             return None
@@ -172,8 +181,7 @@ class Node:
 
     @classmethod
     def _search_content(cls, website) -> None:
-
-        headers_tags = ['h1', 'h2', 'h3', 'h4']
+        headers_tags = ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'a','li']
         for tag_name in headers_tags:
             headers = driver.find_elements(By.TAG_NAME, tag_name)
             for header in headers:
@@ -189,7 +197,7 @@ class Node:
                     if any(word in element.text.lower() for word in cls._keywords):
                         cls.search.add((element.text, website, div))
 
-        element_classes = ['enlaces_leido', 'enlaces', 'txt_blanco']
+        element_classes = ['enlaces_leido', 'enlaces', 'txt_blanco', 'table-data', 'move-page next-page']
         for element_class in element_classes:
             elements = driver.find_elements(By.CLASS_NAME, element_class)
             for element in elements:
@@ -248,3 +256,5 @@ class Node:
             pass
         except Exception as e:
             raise Exception(e)
+        
+

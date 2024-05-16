@@ -72,8 +72,6 @@ class Tree:
 
             self._root.crawl(self._root)
 
-        print("set: ")
-        print(Node.search)
         self._shared_list.extend(Node.search)
         # print("Imprimiendo el árbol...")
         # self.print()
@@ -115,33 +113,35 @@ class Tree:
 
         # Crear un diccionario para almacenar los resultados organizados por etiquetas
         results_by_tag = {
-            'h1': [],
-            'h2': [],
+            'h1': [], # Aquí también va "txt_blanco"
+            'h2': [], # Aquí también va "enlaces" y "enlaces_leido"
             'h3': [],
             'h4': [],
             'h5': [],
-            'p': [],
-            'a': [],
-            'li':[],
-            'table-data': []  # Agregar la clave para 'table-data'
         }
 
         # Organizar los resultados por etiqueta
         for result in self._shared_list:
             text, website, tag_name = result
+
+            tag_name = 'h1' if tag_name == 'txt_blanco' else tag_name
+            tag_name = 'h2' if tag_name == 'enlaces' or tag_name == 'enlaces_leido' else tag_name
+
             # Asegurarse de manejar la etiqueta 'table-data'
             if tag_name in results_by_tag:
                 results_by_tag[tag_name].append((text, website))
-            else:
-                results_by_tag['table-data'].append((text, website))
 
         # Imprimir los resultados ordenados por etiquetas
-        for tag_name in ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'a','li' 'table-data']:
-            print(tag_name.upper())
-            print("--------")
-            for text, website in results_by_tag[tag_name]:
-                print("\t", text)
-                print("\t", website)
+        for tag_name in ['h1', 'h2', 'h3', 'h4', 'h5']:
+            if len(tag_name) == 0:
+                continue
+
+            try:
+                for text, website in results_by_tag[tag_name]:
+                    print("\t", text)
+                    print("\t", website)
                 print("--------")
+            except KeyError:
+                pass
 
 

@@ -1,4 +1,4 @@
-from connection import connection
+from utils.connection import connection
 
 conn = connection()
 

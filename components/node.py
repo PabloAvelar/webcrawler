@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import StaleElementReferenceException
-from robots import read_robots_txt
+from utils.robots import read_robots_txt
 
 # Configurar las opciones de Chrome para ejecutar en modo headless
 chrome_options = Options()
@@ -20,7 +20,7 @@ class Node:
     # Atributo de clase para memoria dinámica y evitar bucles infinitos
     _visited = []
     _disallowed_urls = None
-    _limit = 40
+    _limit = 20
     _counter = 0
     _keywords = []
     search = set()

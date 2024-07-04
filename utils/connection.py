@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def connection():
     # Connect to MariaDB Platform
     try:

@@ -1,4 +1,4 @@
-from tree import Tree
+from components.tree import Tree
 from multiprocessing import Process, Manager
 
 
@@ -13,7 +13,6 @@ def get_websites():
        'https://dof.gob.mx/',
        'https://www.scjn.gob.mx/',
        'https://cjj.gob.mx/audience',
-      'https://becasbenitojuarez.net/',
     ]
 
 

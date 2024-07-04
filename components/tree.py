@@ -1,8 +1,8 @@
-from node import Node
-from sumario import get_sumario
-from sumario import scrape_sumario
-from cache import cache
-from cache import set_new_records
+from components.node import Node
+from utils.sumario import get_sumario
+from utils.sumario import scrape_sumario
+from utils.cache import cache
+from utils.cache import set_new_records
 
 
 class Tree:
